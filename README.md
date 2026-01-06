@@ -148,7 +148,7 @@ pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsons
 ```
 
 ## Requirements
-To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work. Just login and get started.
+To run the code, one need to replace the placeholders of Cerebras and GLM 4.7 API key with his own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work. Just login and get started.
 ### The free-tier limits:
 <p align="center">
   <img src="assets/Cerebraslimits.png" width="700">
@@ -167,16 +167,16 @@ https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys
   <img src="assets/apikeys.png" width="700">
 </p>
 
-After inserting your API keys, you are ready to run the code.
+After inserting the API keys, one is ready to run the code.
 
 Running the code will produce 2 links. Click any of them to start chatting. 
-The links will work under your WiFi only.
+The links will only work under the WiFi which the laptop running the code is connected to.
 
 #### Access from internet:
 To access the running server from anywhere from the world, beyond the wifi, one may use ngrok.
 ##### Follow these Steps:
 - Login: https://dashboard.ngrok.com/login
-- Copy your Authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
+- Copy the Authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
 - To download ngrok paste in terminal:
 ```bash
 wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
@@ -187,21 +187,21 @@ tar -xvzf ngrok-v3-stable-linux-amd64.tgz
 ```bash
 sudo mv ngrok /usr/local/bin
 ```
-- To add your Authtoken, paste:
+- To add the Authtoken, paste:
 ```bash
 ngrok config add-authtoken $YOUR_AUTHTOKEN
 ```
-(Replace $YOUR_AUTHTOKEN with your own.)
+(Replace $YOUR_AUTHTOKEN with the copied Authtoken.)
 - Now paste:
 ```bash
 ngrok http 50051
 ```
-(50051 is the port. You can change it as wanted, but also ensure to change it in python code.)
+(50051 is the port. One can change it as wanted, but also ensure to change it in python code.)
 <p align="center">
   <img src="assets/port.png" width="600">
 </p>
 
-- You will see output similar to:
+- After it, one will see output similar to:
 ```bash
 Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051
 ```
