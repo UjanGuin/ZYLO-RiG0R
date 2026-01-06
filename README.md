@@ -14,9 +14,11 @@ It is designed to outperform top-tier AI models on calculation-heavy, exam-level
 
 
 <p align="center">
-  <img src="assets/ui.png" width="700">
+  <img src="assets/ui1.png" width="700">
 </p>
-
+<p align="center">
+  <img src="assets/ui2.png" width="700">
+</p>
 ---
 
 ## Why ZYLO-RiG0R Exists ?
