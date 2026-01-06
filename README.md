@@ -201,3 +201,22 @@ ZYLO-RiG0R is specialized for mathematics and physics problem-solving. In practi
   <img src="assets/comparison11.png" width="700">
 </p>
 
+
+
+---
+
+## Credits & Acknowledgements
+
+This project was designed, implemented, and maintained by **Swapnanil Guin**.
+
+Special thanks to:
+- Open-source contributors whose libraries made this project possible
+- ChatGPT & Gemini for constant help
+- API and infrastructure providers used strictly as inference backends
+
+All system design, architecture, verification logic, and optimizations are original unless explicitly stated otherwise.
+
+### Third-Party Technologies
+- **SymPy** — symbolic mathematics engine
+- **Flask** — lightweight web framework
+- **Cerebras Inference API** — high-throughput LLM backend
