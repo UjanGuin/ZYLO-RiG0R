@@ -1,4 +1,6 @@
 # ZYLO-RiG0R
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ZYLO-RiG0R is an ultra-fast, research-grade math & physics reasoning engine built on GPT-OSS-120B with Cerebras-accelerated inference and strict tool-augmented computation.
 
