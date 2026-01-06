@@ -142,7 +142,10 @@ This architecture prevents hallucinated results by **design**, not by prompt tun
 ```bash
 pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsonschema rich python-dotenv scipy
 ```
-
+or
+```bash
+pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsonschema rich python-dotenv scipy --break-system-packages
+```
 
 ## Requirements
 To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work. Just login and get started.
@@ -174,17 +177,37 @@ To access the running server from anywhere from the world, beyond the wifi, one 
 ##### Follow these Steps:
 - Login: https://dashboard.ngrok.com/login
 - Copy your Authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
-- To download ngrok paste in terminal: ```wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz```
-```tar -xvzf ngrok-v3-stable-linux-amd64.tgz```
-```sudo mv ngrok /usr/local/bin```
-- To add your Authtoken, paste: ```ngrok config add-authtoken $YOUR_AUTHTOKEN``` (Replace $YOUR_AUTHTOKEN with your own.)
-- Now paste: ```ngrok http 50051``` (50051 is the port. You can change it as wanted, but also ensure to change it in python code.)
+- To download ngrok paste in terminal:
+```bash
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+```
+```bash
+tar -xvzf ngrok-v3-stable-linux-amd64.tgz
+```
+```bash
+sudo mv ngrok /usr/local/bin
+```
+- To add your Authtoken, paste:
+```bash
+ngrok config add-authtoken $YOUR_AUTHTOKEN
+```
+(Replace $YOUR_AUTHTOKEN with your own.)
+- Now paste:
+```bash
+ngrok http 50051
+```
+(50051 is the port. You can change it as wanted, but also ensure to change it in python code.)
 <p align="center">
   <img src="assets/port.png" width="600">
 </p>
 
-- You will see output similar to: ```Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051```
-- Copy ```https://xxxx-xxxx.ngrok-free.app``` and paste at any browser to get started.
+- You will see output similar to:
+```bash
+Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051
+```
+- Copy
+```https://xxxx-xxxx.ngrok-free.app```
+and paste at any browser to get started.
 
 **Note:** The URL is not static.
 
