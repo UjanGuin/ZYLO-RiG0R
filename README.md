@@ -6,7 +6,7 @@ Unlike generic chat systems, ZYLO-RiG0R forces verified computation, executes sa
 
 It is designed to outperform top-tier AI models on calculation-heavy, exam-level, and research-grade problems by eliminating hallucinations and unverifiable reasoning.
 
-
+---
 
 ## Why ZYLO-RiG0R Exists
 
@@ -73,8 +73,9 @@ ZYLO-RiG0R was built to solve that failure mode.
 
 - Anyone who cares about correct answers, not confident lies
 
----
 
+
+<br>
 ## Status
 
 #### ⚠️ Experimental / Research System
