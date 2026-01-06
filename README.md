@@ -72,7 +72,9 @@ ZYLO-RiG0R was built to solve that failure mode.
 - Researchers and engineers
 
 - Anyone who cares about correct answers, not confident lies
-&nbsp;
+
+---
+
 ## Status
 
 #### ⚠️ Experimental / Research System
