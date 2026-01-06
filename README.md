@@ -139,8 +139,11 @@ pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsons
 To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work. Just login and get started.
 ### The free-tier limits:
 <p align="center">
-  <img src="assets/Cerebraslimits.png" width="45%">
-  <img src="assets/Zhipulimits.png" width="45%">
+  <img src="assets/Cerebraslimits.png" width="700">
+</p>
+
+<p align="center">
+  <img src="assets/Zhipulimits.png" width="700">
 </p>
 
 ##### Get Cerebras AI API ket at-
