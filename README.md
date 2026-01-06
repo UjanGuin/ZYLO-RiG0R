@@ -28,3 +28,44 @@ ZYLO-RiG0R was built to solve that failure mode.
 - Phase-aware inference (Planning → Execution → Exposition)
 
 #### The result is a system that cannot “fake” answers.
+
+## Core Capabilities
+
+- 🚀 Ultra-low-latency inference via Cerebras
+
+- 🧮 Guaranteed computation correctness (Python + SymPy)
+
+- 🔒 Sandboxed execution with CPU & memory limits
+
+- 📐 Research-grade math normalization
+
+- 🔁 Optional independent proof verification
+
+- 🌐 Minimal, distraction-free web UI
+
+- ⚙️ Reasoning-level control (Fast / Balanced / Research)
+
+## Philosophy
+
+"If a result cannot be verified, it is not an answer."
+
+### ZYLO-RiG0R prioritizes:
+
+- Correctness over verbosity
+
+- Verification over explanation
+
+- Results over rhetoric
+
+## Who This Is For
+
+- JEE / Olympiad / university-level students
+
+- Researchers and engineers
+
+- Anyone who cares about correct answers, not confident lies
+
+## Status
+
+### ⚠️ Experimental / Research System
+This project pushes LLMs beyond conversational use into formal reasoning infrastructure.
