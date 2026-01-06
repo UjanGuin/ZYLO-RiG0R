@@ -173,6 +173,7 @@ To access the running server from anywhere from the world, beyond the wifi, one 
 <p align="center">
   <img src="assets/port.png" width="600">
 </p>
+
 - You will see output similar to: ```Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051```
 - Copy ```https://xxxx-xxxx.ngrok-free.app``` and paste at any browser to get started.
 ###### Note: The URL is not static.
