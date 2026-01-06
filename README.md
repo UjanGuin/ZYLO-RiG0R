@@ -6,7 +6,7 @@ Unlike generic chat systems, ZYLO-RiG0R forces verified computation, executes sa
 
 It is designed to outperform top-tier AI models on calculation-heavy, exam-level, and research-grade problems by eliminating hallucinations and unverifiable reasoning.
 
-
+-
 ## Why ZYLO-RiG0R Exists
 
 Modern LLMs are optimized for fluency, not correctness.
