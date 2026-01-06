@@ -75,7 +75,7 @@ ZYLO-RiG0R was built to solve that failure mode.
 
 
 
-<br>
+
 ## Status
 
 #### ⚠️ Experimental / Research System
@@ -83,4 +83,58 @@ This project pushes LLMs beyond conversational use into formal reasoning infrast
 
 
 
+---
 
+## Architecture Overview
+
+ZYLO-RiG0R is built as a **phase-aware reasoning pipeline** that strictly separates thinking, computation, and exposition.
+
+At a high level, every request flows through the following stages:
+
+1. **Planning Phase**
+   - High-entropy reasoning to understand the problem
+   - Decides whether verified computation is mandatory
+
+2. **Execution Phase**
+   - Forces tool-only execution when required
+   - Runs sandboxed Python or SymPy with strict CPU and memory limits
+   - Blocks natural-language output during computation
+
+3. **Exposition Phase**
+   - Converts verified results into human-readable explanations
+   - Guarantees that computed values explicitly appear in the final answer
+
+4. **Optional Proof Recheck**
+   - Independently validates results using GLM-4.7
+   - Assigns confidence based on verification verdict
+
+This architecture prevents hallucinated results by **design**, not by prompt tuning.
+
+
+
+---
+
+## Installation
+
+### Requirements
+
+- Python 3.9+
+- Linux or macOS (sandboxed execution required). Windows is not preferred.
+- Cerebras API access
+- GLM-4.7 API key (optional, for proof rechecking)
+
+### Install Dependencies
+
+```bash
+pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsonschema rich python-dotenv scipy
+```
+
+
+## Requirements
+To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work.
+### The free-tier limits:
+<p align="center">
+  <img src="assets/ui.png" width="700">
+</p>
+
+Get Cerebras API ket at 
