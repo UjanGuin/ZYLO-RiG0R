@@ -13,7 +13,7 @@ It is designed to outperform top-tier AI models on calculation-heavy, exam-level
 
 ---
 
-## Why ZYLO-RiG0R Exists
+## Why ZYLO-RiG0R Exists ?
 
 Modern LLMs are optimized for fluency, not correctness.
 ZYLO-RiG0R was built to solve that failure mode.
@@ -165,11 +165,14 @@ To access the running server from anywhere from the world, beyond the wifi, one 
 ##### Follow these Steps:
 - Login: https://dashboard.ngrok.com/login
 - Copy your Authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
-- ```wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz```
+- To download ngrok paste in terminal: ```wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz```
 ```tar -xvzf ngrok-v3-stable-linux-amd64.tgz```
 ```sudo mv ngrok /usr/local/bin```
-- Open terminal and paste: ```ngrok config add-authtoken $YOUR_AUTHTOKEN``` (Replace $YOUR_AUTHTOKEN with your own.)
-- Now paste: ```ngrok http 50051``` (50051 is the port. You can change it as wanted, but also ensure to set that at the last line of python code.)
+- To add your Authtoken, paste: ```ngrok config add-authtoken $YOUR_AUTHTOKEN``` (Replace $YOUR_AUTHTOKEN with your own.)
+- Now paste: ```ngrok http 50051``` (50051 is the port. You can change it as wanted, but also ensure to change it in python code.)
+<p align="center">
+  <img src="assets/port.png" width="600">
+</p>
 - You will see output similar to: ```Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051```
 - Copy ```https://xxxx-xxxx.ngrok-free.app``` and paste at any browser to get started.
 ###### Note: The URL is not static.
