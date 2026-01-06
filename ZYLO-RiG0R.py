@@ -1141,7 +1141,12 @@ HTML_PAGE = r"""
     <title>ZYLO-RIGOR | Research Engine</title>
 
     <!-- Responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -1157,211 +1162,589 @@ HTML_PAGE = r"""
 
     <style>
         :root {
-            --bg: #050509;
-            --panel: #0f172a;
+            --bg-dark: #050509;
+            --bg-deep: #020205;
+            --panel: rgba(15, 23, 42, 0.6);
             --accent: #6366f1;
-            --text: #f8fafc;
-            --border: rgba(255,255,255,0.12);
-            --soft: rgba(255,255,255,0.06);
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(255, 255, 255, 0.15);
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             margin: 0;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at top center, #111425 0%, var(--bg-deep) 80%);
+            color: var(--text-main);
+            font-family: var(--font-main);
             height: 100dvh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ---------- SPLASH SCREEN ---------- */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #020205;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .splash-content {
+            text-align: center;
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .splash-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .splash-sub {
+            color: var(--text-muted);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         /* ---------- HEADER ---------- */
         header {
-            padding: 0.9rem 1.2rem;
-            background: rgba(5,5,9,0.92);
+            padding: 1rem 1.5rem;
+            background: rgba(5, 5, 9, 0.8);
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(12px);
-            gap: 12px;
-            flex-wrap: wrap;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 10;
         }
 
         .brand {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            gap: 10px;
+            letter-spacing: -0.5px;
         }
 
-        .brand span {
-            color: var(--accent);
-        }
+        .brand span { color: var(--accent); }
 
-        /* ---------- CONTROLS ---------- */
         .controls {
             display: flex;
-            gap: 0.6rem;
+            gap: 0.8rem;
             align-items: center;
-            flex-wrap: wrap;
         }
 
-        .pill-select {
-            background: var(--panel);
+        /* --- Styled pill appearance kept, native select replaced by custom component --- */
+        .pill-select, .toggle {
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
-            color: var(--text);
-            padding: 6px 12px;
-            border-radius: 999px;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 0.85rem;
+            font-family: var(--font-main);
             cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .pill-select:hover, .toggle:hover {
+            border-color: var(--border-highlight);
+            background: rgba(255,255,255,0.06);
         }
 
         .toggle {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            font-size: 0.8rem;
-            cursor: pointer;
+            gap: 8px;
             user-select: none;
         }
 
         .toggle input {
             accent-color: var(--accent);
             cursor: pointer;
+            width: 1rem;
+            height: 1rem;
         }
 
-        /* ---------- CHAT ---------- */
+        /* ---------- CUSTOM SELECT (replaces native <select>) ---------- */
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            min-width: 120px;
+            font-family: var(--font-main);
+        }
+
+        .select-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 140px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .select-btn:focus {
+            outline: none;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+            color: var(--text-main);
+            border-color: var(--border-highlight);
+        }
+
+        .select-btn .caret {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 7px solid var(--text-muted);
+            opacity: 0.9;
+        }
+
+        .select-btn.open .caret {
+            transform: rotate(180deg);
+            border-top-color: var(--text-main);
+        }
+
+        .select-options {
+            position: absolute;
+            right: 0;
+            left: 0;
+            margin-top: 8px;
+            background: linear-gradient(180deg, rgba(10,10,12,0.98), rgba(8,8,10,0.98));
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            list-style: none;
+            padding: 6px;
+            display: none;
+            z-index: 50;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .select-options.open { display: block; }
+
+        .select-options li {
+            padding: 10px 12px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .select-options li:hover,
+        .select-options li:focus {
+            background: rgba(99,102,241,0.08);
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .select-options li.selected {
+            background: rgba(99,102,241,0.12);
+            color: var(--accent);
+            box-shadow: inset 0 0 0 1px rgba(99,102,241,0.06);
+        }
+
+        /* ---------- CHAT AREA ---------- */
         #chat {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem;
+            padding: 1.5rem;
+            scroll-behavior: smooth;
         }
 
         .msg {
-            max-width: 860px;
-            margin: 0 auto 1.2rem auto;
-            animation: fadeIn 0.25s ease;
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            flex-direction: column;
+            animation: msgEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes msgEnter {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* AI label — prominent */
+        .assistant .msg-label { 
+            color: var(--accent);
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        /* hide the user label (no "You") */
+        .user .msg-label {
+            display: none;
         }
 
         .msg-content {
-            padding: 1rem 1.1rem;
-            border-radius: 14px;
-            line-height: 1.65;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            position: relative;
+            word-wrap: break-word;
         }
 
+        .user { align-items: flex-end; }
         .user .msg-content {
-            background: #1e293b;
-            border-left: 4px solid var(--accent);
+            background: linear-gradient(135deg, #2e3558 0%, #1e293b 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
+        .assistant { align-items: flex-start; }
         .assistant .msg-content {
-            background: transparent;
-            padding-left: 0;
-            padding-right: 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
         }
 
+        /* Tool Output Box */
         .tool-output {
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 0.8rem;
-            background: #000;
-            color: #0f0;
-            padding: 0.9rem;
-            border-radius: 10px;
+            background: #09090b;
+            color: #4ade80;
+            padding: 1rem;
+            border-radius: 8px;
             margin-top: 0.8rem;
-            border: 1px solid #333;
-            max-height: 180px;
+            border: 1px solid #222;
+            max-height: 200px;
             overflow-y: auto;
+            white-space: pre-wrap;
         }
 
-        /* ---------- INPUT ---------- */
+        /* ---------- TYPING INDICATOR ---------- */
+        #typing-indicator {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto 1rem auto;
+            padding-left: 0.5rem;
+        }
+        
+        .typing-bubble {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .typing-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-right: 8px;
+            font-weight: 500;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(2) { animation-delay: -0.32s; }
+        .dot:nth-child(3) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* ---------- INPUT AREA ---------- */
         #input-area {
-            padding: 0.8rem;
+            padding: 1.2rem;
+            background: rgba(5,5,9,0.9);
             border-top: 1px solid var(--border);
-            background: var(--bg);
             display: flex;
-            gap: 8px;
+            gap: 12px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 20;
         }
 
         #prompt {
             flex: 1;
-            padding: 12px 14px;
+            padding: 14px 18px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            font-size: 0.95rem;
+            background: rgba(20, 20, 25, 0.6);
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: var(--font-main);
             outline: none;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
         #prompt:focus {
             border-color: var(--accent);
+            background: rgba(20, 20, 25, 0.9);
+            box-shadow: 0 0 0 2px var(--accent-glow);
         }
 
         button {
-            padding: 0 18px;
+            padding: 0 24px;
             border-radius: 12px;
             border: none;
             background: var(--accent);
             color: white;
             font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
+            transition: transform 0.1s ease, filter 0.2s;
+            box-shadow: 0 4px 12px var(--accent-glow);
         }
 
         button:active { transform: scale(0.96); }
+        button:hover { filter: brightness(1.1); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- MOBILE TUNING ---------- */
+        /* ---------- MOBILE ---------- */
         @media (max-width: 600px) {
-            .brand { font-size: 0.95rem; }
-            .pill-select, .toggle { font-size: 0.75rem; }
-            .msg-content { font-size: 0.9rem; }
+            header { padding: 0.8rem 1rem; }
+            .brand { font-size: 1rem; }
+            /* show our custom select's button but reduce size */
+            .select-btn { width: 120px; font-size: 0.82rem; padding: 8px 10px; }
+            .msg-content { padding: 1rem 1.2rem; font-size: 0.9rem; }
+            #input-area { padding: 1rem; }
+            #prompt { font-size: 16px; } /* Prevent iOS zoom */
+            .assistant .msg-label { font-size: 1.1rem; } /* scale AI label on small screens */
         }
     </style>
 </head>
 
 <body>
+
+<div id="splash">
+    <div class="splash-content">
+        <div class="splash-title">Welcome!</div>
+        <div class="splash-sub">Initializing Research Environment...</div>
+    </div>
+</div>
+
 <header>
     <div class="brand">⚡ ZYLO <span>RIGOR</span></div>
 
     <div class="controls">
-        <select id="reasoning" class="pill-select">
-            <option value="low">Fast</option>
-            <option value="medium">Balanced</option>
-            <option value="high" selected>Research</option>
-        </select>
+        <!-- Hidden input preserves existing JS expectations (reasoningSelect.value) -->
+        <input type="hidden" id="reasoning" value="high">
+
+        <!-- Custom visually styled select -->
+        <div class="custom-select" id="customReasoning" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+            <button type="button" class="select-btn" id="reasoningBtn" aria-haspopup="listbox" aria-expanded="false">
+                Research
+                <span class="caret"></span>
+            </button>
+            <ul class="select-options" id="reasoningOptions" role="listbox" aria-labelledby="reasoningBtn">
+                <li role="option" data-value="low">Fast</li>
+                <li role="option" data-value="medium">Balanced</li>
+                <li role="option" data-value="high" class="selected">Research</li>
+            </ul>
+        </div>
 
         <label class="toggle">
             <input type="checkbox" id="recheckToggle">
-            Recheck
+            <span>Recheck</span>
         </label>
     </div>
 </header>
 
 <div id="chat"></div>
 
+<!-- Typing Indicator -->
+<div id="typing-indicator">
+    <div class="typing-bubble">
+        <span class="typing-text">Typing</span>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
 <div id="input-area">
-    <input id="prompt" placeholder="Ask a JEE / research-grade question…" autocomplete="off">
-    <button onclick="ask()">Send</button>
+    <input id="prompt" placeholder="Ask a complex question..." autocomplete="off">
+    <button onclick="ask()" id="sendBtn">Send</button>
 </div>
 
 <script>
     const chat = document.getElementById('chat');
     const input = document.getElementById('prompt');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // reasoningSelect now a hidden input (keeps existing code)
     const reasoningSelect = document.getElementById('reasoning');
     const recheckToggle = document.getElementById('recheckToggle');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    // Custom select elements
+    const reasoningBtn = document.getElementById('reasoningBtn');
+    const reasoningOptions = document.getElementById('reasoningOptions');
+    const customReasoning = document.getElementById('customReasoning');
+
+    // open/close helper
+    function closeReasoning() {
+        reasoningOptions.classList.remove('open');
+        reasoningBtn.classList.remove('open');
+        customReasoning.setAttribute('aria-expanded', 'false');
+        reasoningBtn.setAttribute('aria-expanded', 'false');
+    }
+    function openReasoning() {
+        reasoningOptions.classList.add('open');
+        reasoningBtn.classList.add('open');
+        customReasoning.setAttribute('aria-expanded', 'true');
+        reasoningBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    // Toggle on button click
+    reasoningBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (reasoningOptions.classList.contains('open')) closeReasoning();
+        else openReasoning();
+    });
+
+    // Click outside closes
+    document.addEventListener('click', (e) => {
+        if (!customReasoning.contains(e.target)) closeReasoning();
+    });
+
+    // Option click handler
+    reasoningOptions.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', (ev) => {
+            const v = li.getAttribute('data-value');
+            const text = li.textContent.trim();
+            // update hidden input
+            reasoningSelect.value = v;
+            // update visual selected
+            reasoningOptions.querySelectorAll('li').forEach(n => n.classList.remove('selected'));
+            li.classList.add('selected');
+            reasoningBtn.firstChild.nodeValue = text; // set visible text (firstChild is text node)
+            // ensure caret remains (rebuild)
+            const caret = document.createElement('span');
+            caret.className = 'caret';
+            // fix button content to include caret after text
+            reasoningBtn.innerHTML = text;
+            reasoningBtn.appendChild(caret);
+            closeReasoning();
+            reasoningBtn.focus();
+        });
+    });
+
+    // keyboard accessibility for custom select (Enter/Space to toggle, arrows to navigate)
+    customReasoning.addEventListener('keydown', (e) => {
+        const open = reasoningOptions.classList.contains('open');
+        const items = Array.from(reasoningOptions.querySelectorAll('li'));
+        const currentIndex = items.findIndex(i => i.classList.contains('selected'));
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (!open) openReasoning(); else {
+                // if open and an item is focused (use document.activeElement), click it
+                const focused = document.activeElement;
+                if (reasoningOptions.contains(focused) && focused.tagName === 'LI') focused.click();
+                else closeReasoning();
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (!open) openReasoning();
+            const nextIndex = (currentIndex + 1) % items.length;
+            items[nextIndex].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (!open) openReasoning();
+            const prevIndex = (currentIndex - 1 + items.length) % items.length;
+            items[prevIndex].focus();
+        } else if (e.key === 'Escape') {
+            closeReasoning();
+            reasoningBtn.focus();
+        }
+    });
+
+    // ensure list items are focusable for keyboard
+    reasoningOptions.querySelectorAll('li').forEach(li => {
+        li.tabIndex = 0;
+        li.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                li.click();
+            } else if (e.key === 'Escape') {
+                closeReasoning();
+                reasoningBtn.focus();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const next = li.nextElementSibling || reasoningOptions.querySelector('li');
+                next.focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prev = li.previousElementSibling || reasoningOptions.querySelector('li:last-child');
+                prev.focus();
+            }
+        });
+    });
+
+    // Splash Screen Logic
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.visibility = 'hidden';
+            }, 800);
+        }, 1500); // Show for 1.5s
+    });
 
     function renderContent(text) {
         const mathBlocks = [];
@@ -1405,8 +1788,13 @@ HTML_PAGE = r"""
 
         input.value = '';
         input.disabled = true;
+        sendBtn.disabled = true;
 
         appendMsg('user', val);
+
+        // Show Typing Indicator
+        typingIndicator.style.display = 'block';
+        chat.scrollTop = chat.scrollHeight;
 
         try {
             const res = await fetch('/chat', {
@@ -1421,20 +1809,26 @@ HTML_PAGE = r"""
 
             const data = await res.json();
 
+            // Hide Typing Indicator
+            typingIndicator.style.display = 'none';
+
             if (data.tool_output) {
                 const toolDiv = document.createElement('div');
                 toolDiv.className = 'msg assistant';
-                toolDiv.innerHTML =
-                    `<div class="tool-output">$ python3 tool.py [Mode: ${data.tool_output.verify}]\n${data.tool_output.stdout}</div>`;
+                toolDiv.innerHTML = `
+                    <div class="msg-label">AI:</div>
+                    <div class="tool-output">$ python3 tool.py [Mode: ${data.tool_output.verify}]\n${data.tool_output.stdout}</div>`;
                 chat.appendChild(toolDiv);
             }
 
             appendMsg('assistant', data.reply);
         } catch {
+            typingIndicator.style.display = 'none';
             appendMsg('assistant', 'Network error');
         }
 
         input.disabled = false;
+        sendBtn.disabled = false;
         input.focus();
     }
 
@@ -1445,7 +1839,15 @@ HTML_PAGE = r"""
 
         const div = document.createElement('div');
         div.className = `msg ${role}`;
-        div.innerHTML = `<div class="msg-content">${renderContent(text)}</div>`;
+        
+        // Only render the label for assistant messages. user label removed as requested.
+        const labelHTML = role === 'assistant' ? `<div class="msg-label">AI:</div>` : ``;
+
+        div.innerHTML = `
+            ${labelHTML}
+            <div class="msg-content">${renderContent(text)}</div>
+        `;
+        
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
         MathJax.typesetPromise([div]);
@@ -1457,7 +1859,6 @@ HTML_PAGE = r"""
 </html>
 """
 
-
 def _cleanup():
     logger.info("Shutdown.")
 
@@ -1466,14 +1867,3 @@ atexit.register(_cleanup)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=50051, debug=False)
 
-
-
-
-
-
-
-
-
-
-
-        
