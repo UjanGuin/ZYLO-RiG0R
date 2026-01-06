@@ -72,8 +72,12 @@ ZYLO-RiG0R was built to solve that failure mode.
 - Researchers and engineers
 
 - Anyone who cares about correct answers, not confident lies
-
+&nbsp;
 ## Status
 
-### ⚠️ Experimental / Research System
+#### ⚠️ Experimental / Research System
 This project pushes LLMs beyond conversational use into formal reasoning infrastructure.
+
+
+
+
