@@ -152,11 +152,28 @@ https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys
   <img src="assets/apikeys.png" width="700">
 </p>
 
+After inserting your API keys, you are ready to run the code.
+
+Running the code will produce 2 links. Click any of them to start chatting. 
+The links will work under your WiFi only.
+
+#### Access from internet:
+To access the running server from anywhere from the world, beyond the wifi, one may use ngrok.
+##### Follow these Steps:
+- Login: https://dashboard.ngrok.com/login
+- Copy your Authtoken: https://dashboard.ngrok.com/get-started/your-authtoken
+- ```wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz```
+```tar -xvzf ngrok-v3-stable-linux-amd64.tgz```
+```sudo mv ngrok /usr/local/bin```
+- Open terminal and paste: ```ngrok config add-authtoken $YOUR_AUTHTOKEN``` (Replace $YOUR_AUTHTOKEN with your own.)
+- Now paste: ```ngrok http 50051``` (50051 is the port. You can change it as wanted, but also ensure to set that at the last line of python code.)
+- You will see output similar to: ```Forwarding  https://xxxx-xxxx.ngrok-free.app -> http://localhost:50051```
+- Copy ```https://xxxx-xxxx.ngrok-free.app``` and paste at any browser to get started.
+###### Note: The URL is not static.
+
 
 ## Specials
-ZYLO-RiG0R is specialized for mathematics and physics. It can correctly answer complex question before popular models like GPT 5.2, Gemini 3 PRO etc start thinking.
-This system is also seen to beat GPT 5.2 sometimes. ZYLO-RiG0R gave the correct answer where GPT 5.2 produced wrong answer.
-ZYLO-RiG0R also produces most of the answers within 1-2s.
+ZYLO-RiG0R is specialized for mathematics and physics problem-solving. In practice, it often produces correct solutions to complex questions before mainstream models such as GPT-5.2 and Gemini 3 Pro complete their reasoning. In multiple evaluations, ZYLO-RiG0R has delivered correct results in cases where GPT-5.2 produced incorrect answers. Most responses are generated within 1–2 seconds.
 
 
 <p align="center">
@@ -166,3 +183,4 @@ ZYLO-RiG0R also produces most of the answers within 1-2s.
 <p align="center">
   <img src="assets/comparison1.png" width="700">
 </p>
+
