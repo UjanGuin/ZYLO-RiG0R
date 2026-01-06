@@ -6,6 +6,11 @@ Unlike generic chat systems, ZYLO-RiG0R forces verified computation, executes sa
 
 It is designed to outperform top-tier AI models on calculation-heavy, exam-level, and research-grade problems by eliminating hallucinations and unverifiable reasoning.
 
+
+<p align="center">
+  <img src="assets/ui.png" width="700">
+</p>
+
 ---
 
 ## Why ZYLO-RiG0R Exists
@@ -131,10 +136,33 @@ pip install flask flask-cors requests cerebras-cloud-sdk sympy numpy regex jsons
 
 
 ## Requirements
-To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work.
+To run the code replace the placeholders of Cerebras and GLM 4.7 API key with your own api keys. Both Crebras and Zhipu AI(GLM 4.7) offer free API key with some limits. The limits are enough for general work. Just login and get started.
 ### The free-tier limits:
 <p align="center">
-  <img src="assets/ui.png" width="700">
+  <img src="assets/Cerebraslimits.png" width="45%">
+  <img src="assets/Zhipulimits.png" width="45%">
 </p>
 
-Get Cerebras API ket at 
+##### Get Cerebras AI API ket at-
+https://cloud.cerebras.ai/platform/get-started
+##### Get Zhipu AI API key at-
+https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys
+
+<p align="center">
+  <img src="assets/apikeys.png" width="700">
+</p>
+
+
+## Specials
+ZYLO-RiG0R is specialized for mathematics and physics. It can correctly answer complex question before popular models like GPT 5.2, Gemini 3 PRO etc start thinking.
+This system is also seen to beat GPT 5.2 sometimes. ZYLO-RiG0R gave the correct answer where GPT 5.2 produced wrong answer.
+ZYLO-RiG0R also produces most of the answers within 1-2s.
+
+
+<p align="center">
+  <img src="assets/JEEADVq1.png" width="700">
+</p>
+
+<p align="center">
+  <img src="assets/comparison1.png" width="700">
+</p>
