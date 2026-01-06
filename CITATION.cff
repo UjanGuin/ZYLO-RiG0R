@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: ZYLO-RiG0R
+message: "If you use this software, please cite it."
+authors:
+  - family-names: Guin
+    given-names: Swapnanil
+version: 1.0.0
+date-released: 2026-01-01
+license: MIT
