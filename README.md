@@ -6,6 +6,7 @@ Unlike generic chat systems, ZYLO-RiG0R forces verified computation, executes sa
 
 It is designed to outperform top-tier AI models on calculation-heavy, exam-level, and research-grade problems by eliminating hallucinations and unverifiable reasoning.
 
+
 ## Why ZYLO-RiG0R Exists
 
 Modern LLMs are optimized for fluency, not correctness.
@@ -29,6 +30,7 @@ ZYLO-RiG0R was built to solve that failure mode.
 
 #### The result is a system that cannot “fake” answers.
 
+
 ## Core Capabilities
 
 - 🚀 Ultra-low-latency inference via Cerebras
@@ -45,6 +47,7 @@ ZYLO-RiG0R was built to solve that failure mode.
 
 - ⚙️ Reasoning-level control (Fast / Balanced / Research)
 
+
 ## Philosophy
 
 "If a result cannot be verified, it is not an answer."
@@ -56,6 +59,7 @@ ZYLO-RiG0R was built to solve that failure mode.
 - Verification over explanation
 
 - Results over rhetoric
+
 
 ## Who This Is For
 
