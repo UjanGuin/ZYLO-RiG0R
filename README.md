@@ -194,6 +194,6 @@ ZYLO-RiG0R is specialized for mathematics and physics problem-solving. In practi
 </p>
 
 <p align="center">
-  <img src="assets/comparison1.png" width="700">
+  <img src="assets/comparison11.png" width="700">
 </p>
 
