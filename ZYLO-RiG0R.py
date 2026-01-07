@@ -242,24 +242,111 @@ Respond STRICTLY in JSON:
 
 def should_fallback_to_fast(text: str) -> bool:
     """
-    Detect problems that mix calculation with explanation
-    where forcing tools causes deadlock.
+    Detect problems that mix calculation with explanation / reasoning /
+    geometry / multi-part questions where forcing tools causes deadlock.
     """
+
     if not isinstance(text, str):
         return False
 
     t = text.lower()
 
+    # -------------------------------------------------
+    # 1. STRONG EXPLANATION / REASONING SIGNALS
+    # -------------------------------------------------
     explanation_signals = [
-        "explain", "derive", "prove", "show that",
-        "find the locus", "which of the following",
-        "explain why", "reason", "justify"
+        # explicit explanation
+        "explain", "explain why", "explain how",
+        "justify", "reason", "give reasons",
+        "comment on", "discuss",
+
+        # proof / derivation
+        "prove", "hence prove", "show that",
+        "derive", "deduce", "establish",
+        "verify that",
+
+        # locus / geometry wording
+        "locus", "find the locus",
+        "trace the path",
+
+        # conceptual / theory
+        "state and explain",
+        "interpret", "explain the significance",
+        "what do you observe",
+
+        # MCQ reasoning
+        "which of the following",
+        "which statements are correct",
+        "select the correct",
+        "multiple correct",
+
+        # step-based phrasing
+        "step by step",
+        "each step",
+        "clearly explain"
     ]
 
-    has_explanation = any(k in t for k in explanation_signals)
+    # -------------------------------------------------
+    # 2. GEOMETRY / CONIC / DIAGRAM-HEAVY SIGNALS
+    # -------------------------------------------------
+    geometry_signals = [
+        "parabola", "ellipse", "hyperbola", "circle",
+        "focus", "directrix", "axis",
+        "chord", "tangent", "normal",
+        "midpoint", "vertex",
+        "angle subtended", "right angle",
+        "conic", "curve",
+        "first quadrant", "region bounded",
+        "area enclosed",
+        "diagram", "figure"
+    ]
+
+    # -------------------------------------------------
+    # 3. MULTI-PART QUESTION SIGNALS
+    # -------------------------------------------------
+    multipart_signals = [
+        "(i)", "(ii)", "(iii)",
+        "part (a)", "part (b)", "part (c)",
+        "first find", "then find",
+        "hence", "therefore",
+        "and hence",
+        "also find"
+    ]
+
+    # -------------------------------------------------
+    # 4. SCHOOL / JEE / OLYMPIAD STYLE SIGNALS
+    # -------------------------------------------------
+    exam_style_signals = [
+        "jee", "advanced", "main",
+        "board exam", "olympiad",
+        "assertion", "reason",
+        "match the following",
+        "column i", "column ii"
+    ]
+
+    # -------------------------------------------------
+    # 5. CALCULATION HEURISTIC (already exists)
+    # -------------------------------------------------
     needs_calc = requires_tool(text)
 
-    return has_explanation and needs_calc
+    # -------------------------------------------------
+    # 6. FINAL DECISION LOGIC
+    # -------------------------------------------------
+    has_explanation = any(k in t for k in explanation_signals)
+    has_geometry = any(k in t for k in geometry_signals)
+    has_multipart = any(k in t for k in multipart_signals)
+    has_exam_style = any(k in t for k in exam_style_signals)
+
+    # 🔑 Core rule:
+    # If it needs calculation AND any reasoning-heavy signal is present,
+    # prefer FAST to avoid tool deadlock.
+    return needs_calc and (
+        has_explanation
+        or has_geometry
+        or has_multipart
+        or has_exam_style
+    )
+
 
 # -------------------------
 # Sandboxed Python executor
