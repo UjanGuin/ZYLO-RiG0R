@@ -39,7 +39,7 @@ glm_client = ZhipuAI(api_key=GLM_API_KEY)
 # Research-Grade Phase Temperatures
 # ---------------------------------
 # 1. Planning: High entropy to explore solution space (avoid CoT loops)
-TEMP_PLANNING = 0.67
+TEMP_PLANNING = 0.65
 # 2. Execution: Moderate constraint for tool interaction
 TEMP_EXECUTION = 0.0
 # 3. Exposition: Strict determinism for final proofs & numbers
@@ -239,6 +239,28 @@ Respond STRICTLY in JSON:
             "reason": "GLM response not parseable",
             "fix": "unknown"
         }
+
+def fast_fallback(session, user_text):
+    logger.warning("FALLBACK → FAST MODE")
+
+    session.append_user(
+        "Answer the question directly and clearly. "
+        "Do NOT use any computational tools."
+    )
+
+    fast_answer = call_model_with_history(
+        session.history,
+        reasoning_level="low",   # FAST
+        temperature=0.7
+    )
+
+    visible = fast_answer.strip()
+    visible = wrap_pure_math(visible)
+
+    return {
+        "reply": visible,
+        "fallback": "fast"
+    }
 
 def should_fallback_to_fast(text: str) -> bool:
     """
@@ -748,7 +770,7 @@ def handle_message(
 
         session.append_user(
             "This problem REQUIRES verified computation.\n"
-            "Rewrite your response as a Python tool invocation.\n"
+            "Rewrite your response as a Python tool invocation. You MUST print the final numerical or symbolic result using print(). Return ONLY strict JSON.\n"
             "Return ONLY strict JSON.\n"
             "Do NOT explain yet."
         )
@@ -770,26 +792,11 @@ def handle_message(
         and tool_inst is None
     ):
         logger.error("RESEARCH FAILURE: Tool required but not produced.")
-
-        failure_msg = (
-            "### ❌ Research Failed\n\n"
-            "**Reason:** This problem requires verified computation, "
-            "but no valid tool invocation was produced.\n\n"
-            "**Action:** Retry, simplify the question, or switch to Fast mode."
-        )
-
-        session.append_assistant(failure_msg)
-
-        return {
-            "reply": failure_msg,
-            "raw": assistant_raw,
-            "tool_output": None,
-            "error": "tool_required_but_missing"
-        }
+        return fast_fallback(session, user_text)
 
     # =========================================================
     # INIT OUTPUT HOLDERS
-    # =========================================================
+    # ========================================
     tool_output = None
     proof_check = None
 
@@ -849,10 +856,7 @@ def handle_message(
                     f"```\n{stdout.strip()}\n```"
                 )
             else:
-                annotated_answer = (
-                    "### Result\n\n"
-                    "_Computation completed, but no explicit values were returned._"
-                )
+                return fast_fallback(session, user_text)
 
         annotated_answer = wrap_pure_math(annotated_answer)
 
@@ -887,12 +891,8 @@ def handle_message(
     visible_answer = strip_tool_json(assistant_raw).strip()
 
     if not visible_answer:
-        visible_answer = (
-            "### ❌ No Result\n\n"
-            "No valid answer was produced."
-            if reasoning_level == "high"
-            else "### Result\n\n_Response generated successfully._"
-        )
+        return fast_fallback(session, user_text)
+
 
     visible_answer = wrap_pure_math(visible_answer)
     session.append_assistant(visible_answer)
@@ -1953,4 +1953,3 @@ atexit.register(_cleanup)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=50051, debug=False)
-
