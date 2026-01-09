@@ -1,9 +1,12 @@
 # ZYLO-RiG0R
-![Python](https://img.shields.io/badge/python-3.9%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-[![GitHub stars](https://img.shields.io/github/stars/UjanGuin/ZYLO-RiG0R?style=social)](https://github.com/UjanGuin/ZYLO-RiG0R/stargazers)
-![Last commit](https://img.shields.io/github/last-commit/UjanGuin/ZYLO-RiG0R)
-
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Robotics](https://img.shields.io/badge/Domain-Robotics-critical)
+![AI](https://img.shields.io/badge/AI-Enabled-purple)
+![Sensor Fusion](https://img.shields.io/badge/Sensor%20Fusion-Implemented-informational)
+![PID](https://img.shields.io/badge/Control-PID-orange)
+![Kalman](https://img.shields.io/badge/Filter-Kalman-yellow)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Last Commit](https://img.shields.io/github/last-commit/UjanGuin/ZYLO-RiG0R)
 
 
 ZYLO-RiG0R is an ultra-fast, research-grade math & physics reasoning engine built on GPT-OSS-120B with Cerebras-accelerated inference and strict tool-augmented computation.
