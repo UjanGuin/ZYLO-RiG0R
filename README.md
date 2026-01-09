@@ -3,8 +3,7 @@
 ![Robotics](https://img.shields.io/badge/Domain-Robotics-critical)
 ![AI](https://img.shields.io/badge/AI-Enabled-purple)
 ![Sensor Fusion](https://img.shields.io/badge/Sensor%20Fusion-Implemented-informational)
-
-l![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-MIT-green)
 ![Last Commit](https://img.shields.io/github/last-commit/UjanGuin/ZYLO-RiG0R)
 
 
